@@ -95,8 +95,8 @@ export function HeaderSimple() {
       </Menu.Target>
       <Menu.Dropdown>
         <div className="p-1 flex gap-2">
-          <ColorToggle />
           <RTL />
+          <ColorToggle />
         </div>
       </Menu.Dropdown>
     </Menu>
