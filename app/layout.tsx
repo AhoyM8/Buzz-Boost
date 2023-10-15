@@ -13,6 +13,7 @@ import { HeaderSimple } from "./(layout)/components/HeaderSimple";
 import { FooterSimple } from "./(layout)/components/FooterSimple";
 
 import { ViewportSize } from "@/utils/ViewportSize";
+import MainContextProvider from "@/libs/MainContextProvider";
 
 export const metadata: Metadata = {
   title: "Buzz Boost",
@@ -27,14 +28,16 @@ export default function RootLayout({ children }: { children: any }) {
         <link rel="shortcut icon" href="/favicon.svg" />
       </head>
       <body>
-        <DirectionProvider>
-          <MantineProvider theme={theme}>
-            <HeaderSimple />
-            <ViewportSize />
-            {children}
-            <FooterSimple />
-          </MantineProvider>
-        </DirectionProvider>
+        <MainContextProvider>
+          <DirectionProvider>
+            <MantineProvider theme={theme}>
+              <HeaderSimple />
+              <ViewportSize />
+              {children}
+              <FooterSimple />
+            </MantineProvider>
+          </DirectionProvider>
+        </MainContextProvider>
       </body>
     </html>
   );

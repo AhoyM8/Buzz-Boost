@@ -1,22 +1,41 @@
+"use client";
+import { useContext, useState } from "react";
+import { TestContext } from "./context";
 
-type Repository = {
-    id: number;
-    name: string;
-    full_name: string;
-};
+import { MainContext } from "@/libs/MainContextProvider";
+import { Button } from "@mantine/core";
 
-export default async function Page() {
-    const res = await fetch('https://api.github.com/repos/vercel/next.js')
-    const data: Repository = await res.json()
-    console.log(data.full_name)
-    console.log(data)
+async function getData() {
+  const res = await fetch("https://api.github.com/users/vercel");
+  const json = await res.json();
+  console.log(json);
+  return json;
+}
 
-    return (
-        <>
+export default function Page() {
+  const takos_main = useContext(MainContext);
+  const [user, setUser] = useState(takos_main.user);
+  console.log(user);
+
+  return (
+    <>
+      <div>
+        <h1>Next</h1>
+        <Button
+          onClick={async () => {
+            console.log("clicked");
+            const data = await getData();
+            console.log(data);
+            setUser(data);
+
+          }}
+        >
+          Click me
+        </Button>
         <div>
-            <h1>Next</h1>
-            <p>I guess full name is {data.full_name} ⚡️</p>
+          <h2>{user.id}</h2>
         </div>
-        </>
-    );
-    }
+      </div>
+    </>
+  );
+}
