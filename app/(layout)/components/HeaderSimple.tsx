@@ -64,7 +64,7 @@ export function HeaderSimple() {
   ));
 
   const Login = (length: any) => (
-    <Link href="/login">
+    <Link href="/login" className="no-underline">
       <Button
         fullWidth={length === "mobile" ? false : true}
         variant="outline"
