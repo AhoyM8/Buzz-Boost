@@ -25,7 +25,7 @@ import { IconAdjustments, IconLogin } from "@tabler/icons-react";
 const links = [
   { link: "/", label: "Home" },
   { link: "/pricing", label: "Pricing" },
-  { link: "/learn", label: "Learn" },
+  { link: "/test", label: "Test" },
 ];
 
 export function HeaderSimple() {
@@ -39,7 +39,7 @@ export function HeaderSimple() {
       className={`${classes.link}`}
       data-active={active === link.link || undefined}
       onClick={(event) => {
-        event.preventDefault();
+        // event.preventDefault();
         setActive(link.link);
       }}
     >
@@ -54,7 +54,7 @@ export function HeaderSimple() {
       className={`${classes.link} text-center text-xl font-bold`}
       data-active={active === link.link || undefined}
       onClick={(event) => {
-        event.preventDefault();
+        // event.preventDefault();
         setActive(link.link);
         toggle();
       }}

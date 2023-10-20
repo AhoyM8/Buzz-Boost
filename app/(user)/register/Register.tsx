@@ -1,23 +1,45 @@
+"use client";
 import {
-  TextInput,
-  PasswordInput,
-  Paper, 
-  Title,
-  Text,
-  Container,
   Button,
+  Container,
+  Paper,
+  PasswordInput,
+  Text,
+  TextInput,
+  Title,
 } from "@mantine/core";
+
 import classes from "./Register.module.css";
-import Link from "next/link";
+import { useState } from "react";
 
-
-// create a function that fecth data from the backend on ./api/route and return it
-function getData() {
-  return fetch("/api/route").then((res) => res.json());
+async function RegisterUser(email: string, password: string) {
+  // const username to be the part before the @ in the email
+  const username = email.split("@")[0];
+  fetch("http://localhost:3000/register/api", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      username: username,
+      email: email,
+      password: password,
+    }),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+      if (data.success) {
+        alert("Successfully registered!");
+      } else {
+        alert(data.error);
+      }
+    });
 }
 
-
 export function Register() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   return (
     <Container size={420} my={40}>
       <Title ta="center" className={classes.title}>
@@ -28,19 +50,20 @@ export function Register() {
       </Text>
 
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
-        <TextInput label="Email" placeholder="John Doe" required />
+        <TextInput
+          label="Email"
+          placeholder="John Doe"
+          required
+          onChange={(event) => setEmail(event.currentTarget.value)}
+        />
         <PasswordInput
           label="Password"
           placeholder="Your password"
           required
           mt="md"
+          onChange={(event) => setPassword(event.currentTarget.value)}
         />
-        <Button fullWidth mt="xl"
-        onClick={() => {
-          getData().then((data) => console.log(data));
-        }
-      }
-        >
+        <Button fullWidth mt="xl" onClick={() => RegisterUser(email, password)}>
           Register
         </Button>
       </Paper>

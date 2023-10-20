@@ -20,8 +20,8 @@ export default function TestProvider({
 }) {
   const takos_test: TestContextType = {
     id: 1,
-    name: "takos",
-    full_name: "takos",
+    name: "takos Name",
+    full_name: "takos full namo",
   };
   return (
     <TestContext.Provider value={takos_test}>{children}</TestContext.Provider>
