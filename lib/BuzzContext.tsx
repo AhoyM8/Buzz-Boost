@@ -19,7 +19,7 @@ export const MainContext = createContext<ContextType>({
 });
 
 const getData = async () => {
-  const res = await fetch("http://localhost:3000/api/user");
+  const res = await fetch("/api/user");
   const data = await res.json();
   return data;
 };

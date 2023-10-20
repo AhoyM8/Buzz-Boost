@@ -15,7 +15,7 @@ import { useState } from "react";
 async function RegisterUser(email: string, password: string) {
   // const username to be the part before the @ in the email
   const username = email.split("@")[0];
-  fetch("http://localhost:3000/register/api", {
+  fetch("/register/api", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

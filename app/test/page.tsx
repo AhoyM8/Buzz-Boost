@@ -6,7 +6,7 @@ import { MainContext } from "@/lib/BuzzContext";
 import { Button } from "@mantine/core";
 
 async function getData() {
-  const res = await fetch("http://localhost:3000/test/apitako");
+  const res = await fetch("/test/apitako");
   console.log(res);
   const json = await res.json();
   console.log(json);
