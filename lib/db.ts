@@ -1,4 +1,4 @@
-import { cookies } from 'next/headers'
+import { cookies } from "next/headers";
 
 const mongoose = require("mongoose");
 const BuzzUser = require("./models/buzz_user");
@@ -23,8 +23,7 @@ async function dbConnect() {
 // get the user data from the cookie and return it
 const CookieData = async () => {
   const cookieStore = cookies();
-  const user = cookieStore.get("user");
-  // console.log(user);
+  const user = cookieStore.get("buzz-user");
   if (!user) {
     return "No user found";
   }

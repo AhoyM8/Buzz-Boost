@@ -2,19 +2,12 @@
 
 import { createContext, useEffect, useState } from "react";
 
-type ContextType = {
+export const BuzzContext = createContext<ContextType>({
   user: {
-    _id: number;
-    username: string;
-    email: string;
-  };
-};
-
-export const MainContext = createContext<ContextType>({
-  user: {
-    _id: 1,
+    _id: "",
     username: "",
-    email: "naruto@email.com",
+    email: "",
+    loggedIn: false,
   },
 });
 
@@ -24,36 +17,47 @@ const getData = async () => {
   return data;
 };
 
-export default function BuzzContext({ children }: { children: any }) {
+export default function MainContext({ children }: { children: any }) {
   const [user, setUser] = useState<ContextType>({
     user: {
-      _id: 1,
+      _id: "",
       username: "",
       email: "",
+      loggedIn: false,
     },
   });
   useEffect(() => {
     getData().then((data) => {
-      if (data.user !== "No user found") {
-        console.log(data.user);
-        const { _id, username, email } = data.user;
-        setUser({
-          user: {
-            _id,
-            username,
-            email,
-          },
-        });
+      if (data.error) {
+        alert(data.error);
+        return;
       }
+      const { _id, username, email } = data.user;
+      setUser({
+        user: {
+          _id,
+          username,
+          email,
+          loggedIn: true,
+        },
+      });
     });
   }, []);
-
   const data: ContextType = {
     user: {
-      _id: 1,
+      _id: "",
       username: "",
       email: "",
     },
   };
-  return <MainContext.Provider value={user}>{children}</MainContext.Provider>;
+  return <BuzzContext.Provider value={user}>{children}</BuzzContext.Provider>;
 }
+
+type ContextType = {
+  user: {
+    _id: string;
+    username: string;
+    email: string;
+    loggedIn?: boolean;
+  };
+};

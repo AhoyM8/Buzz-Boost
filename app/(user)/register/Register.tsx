@@ -12,31 +12,6 @@ import {
 import classes from "./Register.module.css";
 import { useState } from "react";
 
-async function RegisterUser(email: string, password: string) {
-  // const username to be the part before the @ in the email
-  const username = email.split("@")[0];
-  fetch("/register/api", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      username: username,
-      email: email,
-      password: password,
-    }),
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      console.log(data);
-      if (data.success) {
-        alert("Successfully registered!");
-      } else {
-        alert(data.error);
-      }
-    });
-}
-
 export function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -69,4 +44,28 @@ export function Register() {
       </Paper>
     </Container>
   );
+}
+
+async function RegisterUser(email: string, password: string) {
+  // const username to be the part before the @ in the email
+  const username = email.split("@")[0];
+  fetch("/register/api", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      username: username,
+      email: email,
+      password: password,
+    }),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.success) {
+        window.location.href = "/";
+      } else {
+        alert(data.error);
+      }
+    });
 }

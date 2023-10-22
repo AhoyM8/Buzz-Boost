@@ -2,14 +2,12 @@
 import { useContext, useState } from "react";
 import { TestContext } from "./context";
 
-import { MainContext } from "@/lib/BuzzContext";
+import { BuzzContext } from "@/lib/BuzzContext";
 import { Button } from "@mantine/core";
 
 async function getData() {
   const res = await fetch("/test/apitako");
-  console.log(res);
   const json = await res.json();
-  console.log(json);
   return json;
 }
 
@@ -20,7 +18,6 @@ export default function Page() {
         <h1>Next</h1>
         <Button
           onClick={async () => {
-            console.log("clicked");
             const data = await getData();
           }}
         >

@@ -1,23 +1,20 @@
-import "@mantine/core/styles.css";
-import "./globals.css";
-import React from "react";
+import { theme } from "@/theme";
 import {
-  MantineProvider,
   ColorSchemeScript,
   DirectionProvider,
+  MantineProvider,
 } from "@mantine/core";
-import { theme } from "@/theme";
+import "@mantine/core/styles.css";
 import { Metadata } from "next";
+import "./globals.css";
 
-import { HeaderSimple } from "./(layout)/components/HeaderSimple";
 import { FooterSimple } from "./(layout)/components/FooterSimple";
+import { HeaderSimple } from "./(layout)/components/HeaderSimple";
 
+import MainContext from "@/lib/BuzzContext";
 import { ViewportSize } from "@/utils/ViewportSize";
-import BuzzContext from "@/lib/BuzzContext";
 
 import { dbConnect } from "@/lib/db";
-import { cookies } from "next/headers";
-import { LoggedIn } from "./(layout)/components/LoggedIn";
 
 dbConnect();
 
@@ -28,26 +25,25 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: any }) {
   return (
-    <html lang="en" dir="ltr">
-      <head>
-        <ColorSchemeScript />
-        <link rel="shortcut icon" href="/favicon.svg" />
-      </head>
-      <body>
-        <BuzzContext>
-          <DirectionProvider>
-            <MantineProvider theme={theme}>
-              <HeaderSimple />
-              <LoggedIn />
-              <ViewportSize />
-              {children}
-              <FooterSimple />
-            </MantineProvider>
-          </DirectionProvider>
-        </BuzzContext>
-      </body>
-    </html>
+    <>
+      <html lang="en" dir="ltr">
+        <head>
+          <ColorSchemeScript />
+          <link rel="shortcut icon" href="/favicon.svg" />
+        </head>
+        <body>
+          <MainContext>
+            <DirectionProvider>
+              <MantineProvider theme={theme}>
+                <HeaderSimple />
+                <ViewportSize />
+                {children}
+                <FooterSimple />
+              </MantineProvider>
+            </DirectionProvider>
+          </MainContext>
+        </body>
+      </html>
+    </>
   );
 }
-
-

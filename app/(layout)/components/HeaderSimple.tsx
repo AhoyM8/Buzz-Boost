@@ -1,26 +1,28 @@
 "use client";
-
-import { useState } from "react";
 import {
-  Container,
-  Group,
+  ActionIcon,
+  Box,
   Burger,
   Button,
-  Drawer,
-  ActionIcon,
-  Menu,
-  Box,
-  Space,
+  Container,
   Divider,
+  Drawer,
+  Group,
+  Menu,
+  Space,
 } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
 import { MantineLogo } from "@mantine/ds";
-import { ColorToggle } from "./ColorToggle";
-import { RTL } from "./RTL";
+import { useDisclosure } from "@mantine/hooks";
+import { IconAdjustments } from "@tabler/icons-react";
 import Link from "next/link";
+import { use, useContext, useEffect, useState } from "react";
 
+import { ColorToggle } from "./ColorToggle";
 import classes from "./HeaderSimple.module.css";
-import { IconAdjustments, IconLogin } from "@tabler/icons-react";
+import { RTL } from "./RTL";
+
+// import main context
+import { BuzzContext } from "@/lib/BuzzContext";
 
 const links = [
   { link: "/", label: "Home" },
@@ -29,8 +31,18 @@ const links = [
 ];
 
 export function HeaderSimple() {
+  const { user } = useContext(BuzzContext);
+  const { loggedIn, username, email, _id } = user;
+
   const [opened, { toggle }] = useDisclosure(false);
   const [active, setActive] = useState(links[0].link);
+
+  console.log(user);
+  useEffect(() => {
+    console.log(user);
+  }
+  , [user]);
+
 
   const items = links.map((link) => (
     <Link
@@ -39,7 +51,6 @@ export function HeaderSimple() {
       className={`${classes.link}`}
       data-active={active === link.link || undefined}
       onClick={(event) => {
-        // event.preventDefault();
         setActive(link.link);
       }}
     >
@@ -54,7 +65,6 @@ export function HeaderSimple() {
       className={`${classes.link} text-center text-xl font-bold`}
       data-active={active === link.link || undefined}
       onClick={(event) => {
-        // event.preventDefault();
         setActive(link.link);
         toggle();
       }}
@@ -64,16 +74,15 @@ export function HeaderSimple() {
   ));
 
   const Login = (length: any) => (
-    <Link href="/login" className="no-underline">
+    <Link href={loggedIn ? "/dashboard" : "/login"} className="no-underline">
       <Button
         fullWidth={length === "mobile" ? false : true}
         variant="outline"
         color="gray"
         size="sm"
         radius="md"
-        leftSection={<IconLogin size={18}/>}
       >
-        Login
+        {loggedIn ? "Dashboard" : "Login"} 
       </Button>
     </Link>
   );
