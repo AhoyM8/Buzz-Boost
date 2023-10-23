@@ -6,6 +6,7 @@ dbConnect();
 export async function POST(req: Request) {
   const POST_body = await req.json();
   const { email, password, rememberMe } = POST_body;
+  console.log("POST_body:", POST_body);
 
 
   try {
@@ -24,11 +25,10 @@ export async function POST(req: Request) {
     const cookieStore = cookies();
     
     if (rememberMe) {
-      cookieStore.set("buzz-user", userFound._id, { expires: 365 });
+      cookieStore.set("buzz-user", userFound._id, { expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 365) }); // 1 year
     } else {
       cookieStore.set("buzz-user", userFound._id);
     }
-
     return Response.json({ success: "user found" });
   } catch (error) {
     console.error("Error finding user:", error);

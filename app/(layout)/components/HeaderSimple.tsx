@@ -37,12 +37,6 @@ export function HeaderSimple() {
   const [opened, { toggle }] = useDisclosure(false);
   const [active, setActive] = useState(links[0].link);
 
-  console.log(user);
-  useEffect(() => {
-    console.log(user);
-  }
-  , [user]);
-
 
   const items = links.map((link) => (
     <Link

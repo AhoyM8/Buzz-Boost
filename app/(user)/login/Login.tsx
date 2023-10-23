@@ -20,22 +20,17 @@ import { BuzzContext } from "@/lib/BuzzContext";
 export function Login() {
   const { user } = useContext(BuzzContext);
   const { _id } = user;
-  console.log(user);
-  useEffect(() => {
-    console.log(_id);
-  }, [_id]);
+ 
 
-  setTimeout(() => {
-    console.log(_id);
-    if (_id) {
-      // window.location.href = "/";
-    }
-  } , 4000);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
+
+  useEffect(() => {
+    console.log(rememberMe);
+  }, [rememberMe]);
 
   return (
     <Container size={420} my={40}>
@@ -78,7 +73,7 @@ export function Login() {
         <Button
           fullWidth
           mt="xl"
-          onClick={() => SignIn(email, password, remember)}
+          onClick={() => SignIn(email, password, rememberMe)}
         >
           Sign in
         </Button>

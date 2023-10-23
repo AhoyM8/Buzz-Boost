@@ -29,7 +29,7 @@ export default function MainContext({ children }: { children: any }) {
   useEffect(() => {
     getData().then((data) => {
       if (data.error) {
-        alert(data.error);
+        // alert(data.error);
         return;
       }
       const { _id, username, email } = data.user;
