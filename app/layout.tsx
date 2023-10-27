@@ -35,10 +35,12 @@ export default function RootLayout({ children }: { children: any }) {
           <MainContext>
             <DirectionProvider>
               <MantineProvider theme={theme}>
-                <HeaderSimple />
-                <ViewportSize />
-                {children}
-                <FooterSimple />
+                <div className="flex flex-col min-h-screen">
+                  <HeaderSimple />
+                  <ViewportSize />
+                  <div className="flex-grow">{children}</div>
+                  <FooterSimple />
+                </div>
               </MantineProvider>
             </DirectionProvider>
           </MainContext>

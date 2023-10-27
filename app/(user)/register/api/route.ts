@@ -1,51 +1,41 @@
 const mongoose = require("mongoose");
 import { dbConnect, BuzzUser } from "@/lib/db";
-import getEmailTemplate from "@/lib/test/emailGen";
-
-
-
 import { cookies } from "next/headers";
 
 dbConnect();
 
-// console.log(processedEmail);
-
+let url = "https://buzz-frontend.vercel.app";
 if (process.env.NODE_ENV !== "production") {
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+  url = "http://localhost:3000";
 }
 
-async function createUser() {
-  try {
-    const newUser = new BuzzUser({
-      _id: new mongoose.Types.ObjectId(),
-      username: "exampleusername",
-      email: "exampleEmail",
-      password: "examplePassword",
-    });
-    await newUser.save();
-    console.log("User created successfully");
-  } catch (error) {
-    console.error("Error creating user:", error);
-  }
-}
+const token = generateToken();
+const tokenExpiry = new Date();
+tokenExpiry.setHours(tokenExpiry.getHours() + 24);
 
 export async function POST(req: Request) {
   const post_data = await req.json();
-
   const { username, email, password } = post_data;
+  console.log(username, email, password);
+
   try {
     const newUser = new BuzzUser({
       _id: new mongoose.Types.ObjectId(),
       username: username,
       email: email,
       password: password,
+      verified: false,
+      verificationToken: token,
+      verificationTokenExpiry: tokenExpiry,
     });
     await newUser.save();
     console.log("User created successfully");
     // save user
     const cookieStore = cookies();
     cookieStore.set("buzz-user", newUser._id);
-    sendVerificationEmail(email, "123ABC");
+    console.log(email, token);
+    sendVerificationEmail(email, token);
     return Response.json({ success: "user created" });
   } catch (error) {
     console.error("Error creating user:", error);
@@ -53,51 +43,47 @@ export async function POST(req: Request) {
   }
 }
 
-// "use strict";
 const nodemailer = require("nodemailer");
 
+// const verificationLink = `https://your-website.com/verify?token=${token}`;
+
 const transporter = nodemailer.createTransport({
-  // host: "smtp.forwardemail.net",
-  // port: 465,
-  // secure: true,
   service: "gmail",
   auth: {
-    // TODO: replace `user` and `pass` values from <https://forwardemail.net>
     user: process.env.GMAIL_USER,
     pass: process.env.GMAIL_PASS,
   },
 });
 
-// async..await is not allowed in global scope, must use a wrapper
+import crypto from "crypto";
+
+function generateToken() {
+  return crypto.randomBytes(16).toString("hex");
+}
+
+async function getEmailTemplate(username: string, verificationLink: string) {
+  const response = await fetch(`${url}/email_template.html`);
+  const emailTemplate = await response.text();
+  // console.log("Email template:", emailTemplate);
+  return emailTemplate
+    .replace("{{username}}", "John Doe")
+    .replace("{{link}}", verificationLink);
+}
+
 async function sendVerificationEmail(
   userEmail: string,
   verificationCode: string
 ) {
-  console.log("Email:", process.env.GMAIL_USER);
-  console.log("Password:", process.env.GMAIL_PASS); // Be careful about logging passwords in production!
-  const processedEmail = await getEmailTemplate();
-  console.log("processedEmail:", processedEmail);
-  const verificationLink = `https://buzz-frontend.vercel.app/verify?code=${verificationCode}`;
+  const verificationLink = `${url}/verify/api?code=${verificationCode}`;
+  const processedEmail = await getEmailTemplate(userEmail, verificationLink);
   // send mail with defined transport object
   const info = await transporter.sendMail({
-    // from: '"Fred Foo 👻" <foo@example.com>', // sender address
-    from: `"Buzz" <${process.env.GMAIL_PASS}>`, // sender address
-    // to: "bar@example.com, baz@example.com", // list of receivers
-    to: userEmail,
+    from: `"Buzz" <${process.env.GMAIL_USER}>`, // sender address
+    to: userEmail, // list of receivers
     subject: "Hello ✔", // Subject line
     text: "Hello world?", // plain text body
-    // html: "<b>Hello world?</b>", // html body
-    html: processedEmail,
+    html: processedEmail, // html body
   });
 
   console.log("Message sent: %s", info.messageId);
-  // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
-
-  //
-  // NOTE: You can go to https://forwardemail.net/my-account/emails to see your email delivery status and preview
-  //       Or you can use the "preview-email" npm package to preview emails locally in browsers and iOS Simulator
-  //       <https://github.com/forwardemail/preview-email>
-  //
 }
-
-// sendVerificationEmail().catch(console.error);
