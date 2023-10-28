@@ -10,6 +10,7 @@ import "./globals.css";
 
 import { FooterSimple } from "./(layout)/components/FooterSimple";
 import { HeaderSimple } from "./(layout)/components/HeaderSimple";
+import { VerificationNav } from "./(layout)/components/VerificationNav";
 
 import MainContext from "@/lib/BuzzContext";
 import { ViewportSize } from "@/utils/ViewportSize";
@@ -37,7 +38,9 @@ export default function RootLayout({ children }: { children: any }) {
               <MantineProvider theme={theme}>
                 <div className="flex flex-col min-h-screen">
                   <HeaderSimple />
-                  <ViewportSize />
+                  <div className="flex-grow">
+                    <VerificationNav />
+                  </div>
                   <div className="flex-grow">{children}</div>
                   <FooterSimple />
                 </div>

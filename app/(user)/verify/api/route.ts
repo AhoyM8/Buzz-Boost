@@ -10,22 +10,22 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 export async function GET(request: NextRequest) {
-    const cookieStore = cookies();
-    // if user cookie exists, check if verified
-    if (cookieStore.get("buzz-user")) {
-      const userFound = await BuzzUser.findOne({
-        _id: cookieStore.get("buzz-user"),
-      }).then((user: any) => {
-        if (!user) {
-          return Response.json({ error: "user not found" });
-        }
-        return user;
-      });
-      if (userFound.verified) {
-        return Response.redirect(`${url}/`);
+  const cookieStore = cookies();
+  // if user cookie exists, check if verified
+  if (cookieStore.get("buzz-user")) {
+    const userFound = await BuzzUser.findOne({
+      _id: cookieStore.get("buzz-user"),
+    }).then((user: any) => {
+      if (!user) {
+        return Response.json({ error: "user not found" });
       }
+      return user;
+    });
+    if (userFound.verified) {
+      return Response.redirect(`${url}/`);
     }
-  const token = request.nextUrl.searchParams.get("code");
+  }
+  const token = request.nextUrl.searchParams.get("token");
   try {
     const userFound = await BuzzUser.findOne({ verificationToken: token }).then(
       (user: any) => {
@@ -35,6 +35,11 @@ export async function GET(request: NextRequest) {
         return user;
       }
     );
+
+    // check if the token is expired
+    if (userFound.verificationTokenExpiry < Date.now()) {
+      return Response.redirect(`${url}/verify/expired`);
+    }
 
     await userFound.updateOne({
       $set: { verified: true },

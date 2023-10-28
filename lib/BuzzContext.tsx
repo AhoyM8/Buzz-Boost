@@ -7,6 +7,7 @@ export const BuzzContext = createContext<ContextType>({
     _id: "",
     username: "",
     email: "",
+    verified: true,
     loggedIn: false,
   },
 });
@@ -23,6 +24,7 @@ export default function MainContext({ children }: { children: any }) {
       _id: "",
       username: "",
       email: "",
+      verified: false,
       loggedIn: false,
     },
   });
@@ -32,13 +34,14 @@ export default function MainContext({ children }: { children: any }) {
         // alert(data.error);
         return;
       }
-      const { _id, username, email } = data.user;
+      const { _id, username, email, verified } = data.user;
       setUser({
         user: {
           _id,
           username,
           email,
           loggedIn: true,
+          verified,
         },
       });
     });
@@ -48,6 +51,7 @@ export default function MainContext({ children }: { children: any }) {
       _id: "",
       username: "",
       email: "",
+      verified: false,
     },
   };
   return <BuzzContext.Provider value={user}>{children}</BuzzContext.Provider>;
@@ -58,6 +62,7 @@ type ContextType = {
     _id: string;
     username: string;
     email: string;
+    verified?: boolean;
     loggedIn?: boolean;
   };
 };
