@@ -1,7 +1,7 @@
 const nodemailer = require("nodemailer");
 import crypto from "crypto";
 
-let url = "https://buzz-frontend.vercel.app";
+let url = "https://buzz-boost.vercel.app";
 if (process.env.NODE_ENV !== "production") {
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
   url = "http://localhost:3000";
