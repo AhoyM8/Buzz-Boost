@@ -47,7 +47,6 @@ export { sendVerificationEmail, token, tokenExpiry };
 async function getEmailTemplate(username: string, verificationLink: string) {
   const response = await fetch(`${url}/email_template.html`);
   const emailTemplate = await response.text();
-  // console.log("Email template:", emailTemplate);
   return emailTemplate
     .replace("{{username}}", username)
     .replace("{{link}}", verificationLink);

@@ -28,9 +28,6 @@ export function Login() {
   const [remember, setRemember] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
 
-  useEffect(() => {
-    console.log(rememberMe);
-  }, [rememberMe]);
 
   return (
     <Container size={420} my={40}>

@@ -21,8 +21,6 @@ export async function GET(req: Request) {
       },
     });
   } catch (error) {
-    // console.error("Error finding user:", error);
-    // console.log("Error finding user with id from cookie:");
     return Response.json({ error: "error finding user" });
   }
 }

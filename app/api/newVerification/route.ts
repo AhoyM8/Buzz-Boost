@@ -6,7 +6,6 @@ dbConnect();
 export async function POST(req: Request) {
   const POST_body = await req.json();
   const _id = POST_body.id;
-  console.log(_id);
   try {
     const userFound = await BuzzUser.findOne({ _id: _id }).exec();
     // check if user verified field is true

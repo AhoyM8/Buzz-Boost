@@ -37,8 +37,6 @@ export default function MainContext({ children }: { children: any }) {
         return;
       }
       const { _id, username, email, verified } = data.user;
-      console.log(data.user);
-      console.log(_id, username, email, verified);
       setUser({
         user: {
           _id,

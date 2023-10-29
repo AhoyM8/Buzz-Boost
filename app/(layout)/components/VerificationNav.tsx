@@ -5,12 +5,9 @@ import { useContext, useState, useEffect, use } from "react";
 
 export function VerificationNav() {
   const { user } = useContext(BuzzContext);
-  console.log(user);
   const { loggedIn, username, email, _id, verified } = user;
   const [userVerified, setUserVerified] = useState(true);
   useEffect(() => {
-    console.log("user changed");
-    console.log(user);
     setUserVerified(user.verified as boolean);
   }, [user]);
   if (!loggedIn) return <></>; // if not logged in, don't show anything
@@ -26,7 +23,6 @@ export function VerificationNav() {
           onClick={() => {
             requestNewVerificationLink(_id);
             // alert("A new verification link has been sent to your email.");
-            console.log("A new verification link has been sent to your email.");
           }}
         >
           request a new one
@@ -44,7 +40,6 @@ async function requestNewVerificationLink(id: string) {
   })
     .then((res) => res.json())
     .then((data) => {
-      console.log(data);
       if (data.success) {
         alert(data.success);
       } else {

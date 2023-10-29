@@ -13,13 +13,14 @@ import {
 } from "@mantine/core";
 import { MantineLogo } from "@mantine/ds";
 import { useDisclosure } from "@mantine/hooks";
-import { IconAdjustments } from "@tabler/icons-react";
+import { IconAdjustments, IconSettings } from "@tabler/icons-react";
 import Link from "next/link";
 import { use, useContext, useEffect, useState } from "react";
 
 import { ColorToggle } from "./ColorToggle";
 import classes from "./HeaderSimple.module.css";
 import { RTL } from "./RTL";
+import {LanguagePicker} from "./navbar/leng/LanguagePicker";
 
 // import main context
 import { BuzzContext } from "@/lib/BuzzContext";
@@ -89,8 +90,9 @@ export function HeaderSimple() {
           radius="md"
           aria-label="Settings"
           size="lg"
+          color="gray"
         >
-          <IconAdjustments
+          <IconSettings
             style={{ width: "70%", height: "70%" }}
             stroke={1.5}
           />
@@ -98,7 +100,8 @@ export function HeaderSimple() {
       </Menu.Target>
       <Menu.Dropdown>
         <div className="p-1 flex gap-2">
-          <RTL />
+          {/* <RTL /> */}
+          <LanguagePicker />
           <ColorToggle />
         </div>
       </Menu.Dropdown>

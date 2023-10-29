@@ -8,7 +8,6 @@ dbConnect();
 export async function POST(req: Request) {
   const post_data = await req.json();
   const { username, email, password } = post_data;
-  console.log(username, email, password);
 
   try {
     const newUser = new BuzzUser({
@@ -21,7 +20,6 @@ export async function POST(req: Request) {
       verificationTokenExpiry: tokenExpiry,
     });
     await newUser.save();
-    console.log("User created successfully");
     // save user
     const cookieStore = cookies();
     cookieStore.set("buzz-user", newUser._id);
