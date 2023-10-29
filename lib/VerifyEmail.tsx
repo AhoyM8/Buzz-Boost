@@ -39,6 +39,7 @@ async function sendVerificationEmail(
   });
 
   console.log("Message sent: %s", info.messageId);
+  return info.messageId;
 }
 
 export { sendVerificationEmail, token, tokenExpiry };

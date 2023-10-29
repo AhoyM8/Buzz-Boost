@@ -14,7 +14,8 @@ export async function POST(req: Request) {
       return Response.json({ error: "user already verified" });
     } else if (userFound) {
       // resend verification email user email and replace token and token expiry
-      sendVerificationEmail(userFound.email, token);
+      // sendVerificationEmail(userFound.email, token);
+      const email_sent = await sendVerificationEmail( userFound.email, token );
       // update user verification token and token expiry using $set
       await BuzzUser.updateOne(
         { _id: _id },
@@ -26,7 +27,7 @@ export async function POST(req: Request) {
         }
       );
 
-      return Response.json({ success: "email verification sent" });
+      return Response.json({ success: "email verification sent", email_sent });
     } else {
       return Response.json({ error: "user not found" });
     }
