@@ -12,19 +12,19 @@ if (process.env.NODE_ENV !== "production") {
 export async function GET(request: NextRequest) {
   const cookieStore = cookies();
   // if user cookie exists, check if verified
-  if (cookieStore.get("buzz-user")) {
-    const userFound = await BuzzUser.findOne({
-      _id: cookieStore.get("buzz-user"),
-    }).then((user: any) => {
-      if (!user) {
-        return Response.json({ error: "user not found" });
+  try {
+    const user = await BuzzUser.findById(cookieStore.get("buzz-user")).then(
+      (user: any) => {
+        if (!user) {
+          return Response.redirect(`${url}/login`);
+        }
+        return user;
       }
-      return user;
-    });
-    if (userFound.verified) {
-      return Response.redirect(`${url}/`);
+    );
+    if (user.verified) {
+      return Response.redirect(`${url}/dashboard`);
     }
-  }
+  } catch (error) {}
   const token = request.nextUrl.searchParams.get("token");
   try {
     const userFound = await BuzzUser.findOne({ verificationToken: token }).then(

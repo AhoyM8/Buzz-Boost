@@ -17,6 +17,7 @@ export async function GET(req: Request) {
         _id: userFound._id,
         username: userFound.username,
         email: userFound.email,
+        verified: userFound.verified,
       },
     });
   } catch (error) {

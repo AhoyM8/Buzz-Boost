@@ -13,7 +13,9 @@ export const BuzzContext = createContext<ContextType>({
 });
 
 const getData = async () => {
-  const res = await fetch("/api/user");
+  const res = await fetch("/api/user", {
+    cache: "no-store",
+  });
   const data = await res.json();
   return data;
 };
@@ -24,7 +26,7 @@ export default function MainContext({ children }: { children: any }) {
       _id: "",
       username: "",
       email: "",
-      verified: false,
+      verified: true,
       loggedIn: false,
     },
   });
@@ -35,6 +37,8 @@ export default function MainContext({ children }: { children: any }) {
         return;
       }
       const { _id, username, email, verified } = data.user;
+      console.log(data.user);
+      console.log(_id, username, email, verified);
       setUser({
         user: {
           _id,
@@ -46,14 +50,7 @@ export default function MainContext({ children }: { children: any }) {
       });
     });
   }, []);
-  const data: ContextType = {
-    user: {
-      _id: "",
-      username: "",
-      email: "",
-      verified: false,
-    },
-  };
+
   return <BuzzContext.Provider value={user}>{children}</BuzzContext.Provider>;
 }
 
@@ -62,7 +59,7 @@ type ContextType = {
     _id: string;
     username: string;
     email: string;
-    verified?: boolean;
+    verified: boolean;
     loggedIn?: boolean;
   };
 };

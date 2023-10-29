@@ -37,7 +37,8 @@ export function VerificationNav() {
 }
 
 async function requestNewVerificationLink(id: string) {
-  fetch("/api/newVerification", {
+  fetch("/api/newVerification",
+  {
     method: "POST",
     body: JSON.stringify({ id }),
   })
