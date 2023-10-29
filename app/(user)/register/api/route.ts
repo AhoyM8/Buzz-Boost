@@ -25,7 +25,7 @@ export async function POST(req: Request) {
     // save user
     const cookieStore = cookies();
     cookieStore.set("buzz-user", newUser._id);
-    sendVerificationEmail(email, token);
+    await sendVerificationEmail(email, token);
     return Response.json({ success: "user created" });
   } catch (error) {
     console.error("Error creating user:", error);
