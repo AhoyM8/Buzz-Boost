@@ -1,5 +1,7 @@
 .control {
-  width: rem(200px);
+  /* width: rem(200px); */
+  width: calc(100% - var(--mantine-spacing-md) * 2);
+
   display: flex;
   justify-content: space-between;
   align-items: center;

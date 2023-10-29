@@ -9,8 +9,8 @@ import { Metadata } from "next";
 import "./globals.css";
 
 import { FooterSimple } from "./(layout)/components/FooterSimple";
-import { HeaderSimple } from "./(layout)/components/HeaderSimple";
-import { VerificationNav } from "./(layout)/components/VerificationNav";
+import { HeaderSimple } from "./(layout)/components/navbar/HeaderSimple";
+import { VerificationNav } from "./(layout)/components/navbar/VerificationNav";
 
 import MainContext from "@/lib/BuzzContext";
 import { ViewportSize } from "@/utils/ViewportSize";

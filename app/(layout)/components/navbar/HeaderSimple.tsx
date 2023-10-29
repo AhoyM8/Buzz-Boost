@@ -13,17 +13,18 @@ import {
 } from "@mantine/core";
 import { MantineLogo } from "@mantine/ds";
 import { useDisclosure } from "@mantine/hooks";
-import { IconAdjustments, IconSettings } from "@tabler/icons-react";
+
+
+import { IconSettings } from "@tabler/icons-react";
 import Link from "next/link";
-import { use, useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 
 import { ColorToggle } from "./ColorToggle";
 import classes from "./HeaderSimple.module.css";
-import { RTL } from "./RTL";
-import {LanguagePicker} from "./navbar/leng/LanguagePicker";
+import { LanguagePicker } from "./leng/LanguagePicker";
 
-// import main context
 import { BuzzContext } from "@/lib/BuzzContext";
+import { usePathname } from "next/navigation";
 
 const links = [
   { link: "/", label: "Home" },
@@ -31,13 +32,15 @@ const links = [
   { link: "/test", label: "Test" },
 ];
 
+
 export function HeaderSimple() {
+  const pathname = usePathname();
+
   const { user } = useContext(BuzzContext);
   const { loggedIn, username, email, _id } = user;
 
   const [opened, { toggle }] = useDisclosure(false);
   const [active, setActive] = useState(links[0].link);
-
 
   const items = links.map((link) => (
     <Link
@@ -77,13 +80,14 @@ export function HeaderSimple() {
         size="sm"
         radius="md"
       >
-        {loggedIn ? "Dashboard" : "Login"} 
+        {loggedIn ? "Dashboard" : "Login"}
       </Button>
     </Link>
   );
 
   const Adjustments = () => (
-    <Menu position="bottom-end" offset={9} withArrow arrowPosition="center">
+    // <Menu position="bottom-end" offset={9} withArrow arrowPosition="center">
+    <Menu offset={9} withArrow arrowPosition="center">
       <Menu.Target>
         <ActionIcon
           variant="outline"
@@ -92,21 +96,24 @@ export function HeaderSimple() {
           size="lg"
           color="gray"
         >
-          <IconSettings
-            style={{ width: "70%", height: "70%" }}
-            stroke={1.5}
-          />
+          <IconSettings style={{ width: "70%", height: "70%" }} stroke={1.5} />
         </ActionIcon>
       </Menu.Target>
       <Menu.Dropdown>
-        <div className="p-1 flex gap-2">
-          {/* <RTL /> */}
-          <LanguagePicker />
-          <ColorToggle />
+        <div className="p-1 flex flex-col gap-2">
+          <Box className="flex gap-3">
+            <LanguagePicker />
+            <ColorToggle />
+          </Box>
+          <LogOutButton />
         </div>
       </Menu.Dropdown>
     </Menu>
   );
+
+  if (pathname === "/dashboard") {
+    return <></>;
+  }
 
   return (
     <>
@@ -151,3 +158,23 @@ export function HeaderSimple() {
     </>
   );
 }
+
+const LogOutButton = () => {
+  return (
+    <Button
+      variant="outline"
+      color="red"
+      size="sm"
+      radius="md"
+      onClick={() => {
+        // delete a cookie named 'buzz-user'
+        document.cookie =
+          "buzz-user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        // reload the page
+        window.location.reload();
+      }}
+    >
+      Logout
+    </Button>
+  );
+};
