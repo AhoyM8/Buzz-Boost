@@ -6,8 +6,6 @@ dbConnect();
 export async function POST(req: Request) {
   const POST_body = await req.json();
   const { email, password, rememberMe } = POST_body;
-  console.log("POST_body:", POST_body);
-
 
   try {
     const userFound = await BuzzUser.findOne({ email: email }).then((user: any) => {

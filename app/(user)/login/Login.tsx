@@ -48,14 +48,14 @@ export function Login() {
           label="Email"
           placeholder="John Doe"
           required
-          onChange={(e) => setEmail(e.currentTarget.value)}
+          onInput={(e) => setEmail(e.currentTarget.value)}
         />
         <PasswordInput
           label="Password"
           placeholder="Your password"
           required
           mt="md"
-          onChange={(e) => setPassword(e.currentTarget.value)}
+          onInput={(e) => setPassword(e.currentTarget.value)}
         />
         <Group justify="space-between" mt="lg">
           <Checkbox

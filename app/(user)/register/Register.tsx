@@ -29,14 +29,14 @@ export function Register() {
           label="Email"
           placeholder="John Doe"
           required
-          onChange={(event) => setEmail(event.currentTarget.value)}
+          onInput={(event) => setEmail(event.currentTarget.value)}
         />
         <PasswordInput
           label="Password"
           placeholder="Your password"
           required
           mt="md"
-          onChange={(event) => setPassword(event.currentTarget.value)}
+          onInput={(event) => setPassword(event.currentTarget.value)}
         />
         <Button fullWidth mt="xl" onClick={() => RegisterUser(email, password)}>
           Register

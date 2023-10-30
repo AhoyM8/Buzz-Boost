@@ -105,7 +105,7 @@ export function HeaderSimple() {
             <LanguagePicker />
             <ColorToggle />
           </Box>
-          <LogOutButton />
+          <LogOutButton user={user} />
         </div>
       </Menu.Dropdown>
     </Menu>
@@ -159,7 +159,10 @@ export function HeaderSimple() {
   );
 }
 
-const LogOutButton = () => {
+const LogOutButton = (user: any) => {
+    if (user.user.loggedIn === false) {
+    return <></>;
+  }
   return (
     <Button
       variant="outline"
